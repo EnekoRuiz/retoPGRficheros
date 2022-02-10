@@ -3,6 +3,8 @@ package clases;
 import java.util.ArrayList;
 import java.util.List;
 
+import util.Util;
+
 public class Animal extends SerVivo {
 	private boolean vertebrado;
 	private String alimento;
@@ -54,5 +56,37 @@ public class Animal extends SerVivo {
 
 	public void setVacunas(List<String> vacunas) {
 		this.vacunas = vacunas;
+	}
+	
+	public void setDatos(int wCod) {
+		boolean esta=false;
+		char seguir;
+		super.setDatos(wCod);
+		System.out.println("El animal es vertebrado?");
+		vertebrado=Util.leerBoolean();
+		System.out.println("Introduce el alimento del animal: ");
+		alimento=Util.introducirCadena();
+		System.out.println("Introduce el metodo de desplazamiento: ");
+		desplazamiento=Util.introducirCadena();
+		System.out.println("Introduce la clase de animal: ");
+		clase=Util.introducirCadena();
+		
+		do {
+			System.out.println("Introduce la vacuna: ");
+			String wVacuna=Util.introducirCadena();
+			for (int i = 0; i < vacunas.size(); i++) {
+				if (vacunas.get(i).equals(wVacuna)) {
+					esta = true;
+					i = vacunas.size();
+				}
+			}
+			if (esta) {
+				System.out.println("La vacuna ya esta introducida");
+			} else {
+				vacunas.add(wVacuna);
+			}
+			System.out.println("Quieres introducir mas vacunas? (S/N)");
+			seguir = Util.leerChar('S', 'N');
+		} while (seguir != 'N');
 	}
 }

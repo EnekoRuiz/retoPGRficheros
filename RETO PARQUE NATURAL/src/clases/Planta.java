@@ -1,5 +1,7 @@
 package clases;
 
+import util.Util;
+
 public class Planta extends SerVivo {
 
 	private String tipoPlanta;
@@ -44,5 +46,17 @@ public class Planta extends SerVivo {
 	public void setTipoReproduccion(String tipoReproduccion) {
 		this.tipoReproduccion = tipoReproduccion;
 	}
-
+	
+	
+	public void setDatos(int wCod) {
+		super.setDatos(wCod);
+		System.out.println("Introduce el tipo de planta: ");
+		tipoPlanta=Util.introducirCadena();
+		System.out.println("La planta tiene flores? (True/False)");
+		flores=Util.leerBoolean();
+		System.out.println("Introduce el color de la planta: ");
+		color=Util.introducirCadena();
+		System.out.println("Introduce el tipo de reproduccion: ");
+		tipoReproduccion=Util.introducirCadena();
+	}
 }

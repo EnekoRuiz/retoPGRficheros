@@ -76,29 +76,40 @@ public class SerVivo {
 	public void setCodCuidador(List<Integer> codCuidador) {
 		this.codCuidador = codCuidador;
 	}
-	
-	//setDatos
-		public void setDatos() {
-			char seguir;
-			
-			System.out.println("Introduce el nombre cientifico");
-			nombreCientifico=Util.introducirCadena();
-			System.out.println("Introduce el habitat");
-			habitat=Util.introducirCadena();
-			System.out.println("Introduce el tamano medio");
-			tamannoMedio=Util.leerFLoat();
-			System.out.println("Introduce el nombre vulgar");
-			nombreVulgar=Util.introducirCadena();
-			System.out.println("Introduce la descripcion");
-			descripcion=Util.introducirCadena();
-			System.out.println("Introduce el numero de ejemplares");
-			ejemplares=Util.leerInt();
-			do {
-				System.out.println("Introduce el codigo del cuidador a su cargo");
-				int aux=Util.leerInt();
-				codCuidador.add(aux);
-				System.out.println("Quieres introducir mas cuidadores? (S/N)");
-				seguir=Util.leerChar('S', 'N');
-			}while(seguir!='N');
-		}
+
+	// setDatos
+	public void setDatos(int wCod) {
+		char seguir;
+		boolean esta = false;
+//Comprobar que no introduzca de nuevo el mismo codigo de cuidador a un ser vivo
+		do {
+			for (int i = 0; i < codCuidador.size(); i++) {
+				if (codCuidador.get(i).equals(wCod)) {
+					esta = true;
+					i = codCuidador.size();
+				}
+			}
+			if (esta) {
+				System.out.println("El cuidador ya esta introducido");
+			} else {
+				codCuidador.add(wCod);
+			}
+			System.out.println("Quieres introducir mas cuidadores? (S/N)");
+			seguir = Util.leerChar('S', 'N');
+		} while (seguir != 'N');
+
+		System.out.println("Introduce el nombre cientifico");
+		nombreCientifico = Util.introducirCadena();
+		System.out.println("Introduce el habitat");
+		habitat = Util.introducirCadena();
+		System.out.println("Introduce el tamano medio");
+		tamannoMedio = Util.leerFLoat();
+		System.out.println("Introduce el nombre vulgar");
+		nombreVulgar = Util.introducirCadena();
+		System.out.println("Introduce la descripcion");
+		descripcion = Util.introducirCadena();
+		System.out.println("Introduce el numero de ejemplares");
+		ejemplares = Util.leerInt();
+
+	}
 }
