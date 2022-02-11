@@ -12,6 +12,7 @@ public class Cuidador {
 	private LocalDate fechaAlta;
 	private LocalDate fechaNac;
 	private String formacion;
+	private boolean activo;
 
 	
 	// Constructor
@@ -22,6 +23,14 @@ public class Cuidador {
 	// Getters y setters
 	public int getCodCuidador() {
 		return codCuidador;
+	}
+
+	public boolean isActivo() {
+		return activo;
+	}
+
+	public void setActivo(boolean activo) {
+		this.activo = activo;
 	}
 
 	public void setCodCuidador(int codCuidador) {
