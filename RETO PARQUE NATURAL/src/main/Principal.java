@@ -27,15 +27,15 @@ public class Principal {
 
 		do {
 			System.out.println("\n1.-CRUD cuidadores." + "\n2.-CRUD seres vivos."
-					+ "\n3.-Listar seres vivos por tamaño." + "\n4.-Listar animales por alimento."
+					+ "\n3.-Listar seres vivos por tamaÃ±o." + "\n4.-Listar animales por alimento."
 					+ "\n5.-Sacar los datos de las plantas que tengan flores."
 					+ "\n6.-Listar de que seres vivos se encarga cada cuidador."
-					+ "\n7.-Introduce formación y listar los cuidadores que la tengan."
-					+ "\n8.-Listado de cuantos cuidadores hay por cada formación."
-					+ "\n9.-Listado de hábitats y cuantos seres vivos se encuentran en el."
-					+ "\n10.-Listado de los trabajadores por años trabajados." + "\n11.-Listar las plantas por color."
+					+ "\n7.-Introduce formaciÃ³n y listar los cuidadores que la tengan."
+					+ "\n8.-Listado de cuantos cuidadores hay por cada formaciÃ³n."
+					+ "\n9.-Listado de hÃ¡bitats y cuantos seres vivos se encuentran en el."
+					+ "\n10.-Listado de los trabajadores por aÃ±os trabajados." + "\n11.-Listar las plantas por color."
 					+ "\n12.-Salir.");
-			System.out.println("Elige una opción: ");
+			System.out.println("Elige una opciÃ³n: ");
 			opc = Util.leerInt(1, 12);
 			switch (opc) {
 			case 1:
@@ -134,32 +134,95 @@ public class Principal {
 		System.out.println("Introduce el codigo del trabajador que quieres modificar");
 		int codUsuario = Util.leerInt();
 		int cont = Util.calculoFichero(fichCuidadores);
-		Cuidador c = busquedaCuidador(fichCuidadores, codUsuario);
+		boolean modificado=false;
 
-		if (c != null) {
-			ArrayList<Cuidador> cuidadores = new ArrayList<Cuidador>(cont);
-			FileInputStream fis = null;
-			ObjectInputStream ois = null;
-			try {
-				fis = new FileInputStream(fichCuidadores);
-				ois = new ObjectInputStream(fis);
-				for (int i = 0; i < cont; i++) {
-					cuidadores.add(i, (Cuidador) ois.readObject());
+		// Volcado a arraylist
+		ArrayList<Cuidador> cuidadores = new ArrayList<Cuidador>(cont);
+		FileInputStream fis = null;
+		ObjectInputStream ois = null;
+		try {
+			fis = new FileInputStream(fichCuidadores);
+			ois = new ObjectInputStream(fis);
+			for (int i = 0; i < cont; i++) {
+				cuidadores.add(i, (Cuidador) ois.readObject());
+			}
+			ois.close();
+			fis.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found.");
+		} catch (IOException e) {
+			System.out.println(" ");
+		} catch (ClassNotFoundException e) {
+			System.out.println("Error en la lectura de datos.");
+		}
+
+		//Modificacion del cuidador
+		for (int i = 0; i < cuidadores.size(); i++) {
+			if(cuidadores.get(i).getCodCuidador()==codUsuario) {
+				System.out.println("Los datos de este cuidador son:");
+				cuidadores.get(i).getDatos();
+				System.out.println("Desea modificarlos?(S/N)");
+				char opc = Util.leerChar();
+				if(opc=='S') {
+					modificado = true;
+					boolean salir=false;
+					do {
+						System.out.println("Que desea modificar:");
+						System.out.println("1) Nombre\n"
+								+ "2) Apellido\n"
+								+ "3) Fecha de Nacimiento\n"
+								+ "4) Fecha de Alta\n"
+								+ "5) Formacion\n"
+								+ "6) Salir\n");
+						int opcion = Util.leerInt();
+						switch(opcion) {
+						case 1:
+							cuidadores.get(i).setNombre(Util.introducirCadena());
+							break;
+						case 2:
+							cuidadores.get(i).setApellidos(Util.introducirCadena());
+							break;
+						case 3:
+							cuidadores.get(i).setFechaNac(Util.leerFechaDMA());
+							break;
+						case 4:
+							cuidadores.get(i).setFechaAlta(Util.leerFechaDMA());
+							break;
+						case 5:
+							cuidadores.get(i).setFormacion(Util.introducirCadena());
+							break;
+						case 6:
+							salir=true;
+							break;
+						}
+					} while(!salir);
+				} else {
+					i=cuidadores.size();
 				}
-				ois.close();
-				fis.close();
+			} else {
+				System.out.println("Error, no se han encontrado cuidadores con ese codigo");
+			}
+		}
+		
+		//Se han realizado cambios, se vuelcan los datos del arraylist al fichero
+		if(modificado) {
+			try {
+				FileOutputStream fos=new FileOutputStream (fichCuidadores);
+				ObjectOutputStream oos =new ObjectOutputStream(fos);
+				for (int i=0; i<cont-1; i++){
+					oos.writeObject(cuidadores.get(i));
+				}
+				oos.close();
+				fos.close();
 			} catch (FileNotFoundException e) {
 				System.out.println("File not found.");
 			} catch (IOException e) {
 				System.out.println(" ");
-			} catch (ClassNotFoundException e) {
-				System.out.println("Error en la lectura de datos.");
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
+			System.out.println("Modificacion realizada con exito");
 		}
-		else {
-			System.out.println("Error, no existe ningun cuidador con ese codigo");
-		}
-
 	}
 
 	private static void listarCuidadores(File fichCuidadores) {
@@ -241,7 +304,7 @@ public class Principal {
 	private static void crudSeresVivos(File fichVivos, File fichCuidadores) {
 		if (fichCuidadores.exists()) {
 			System.out.println("1. Alta de un ser vivo\n" + "2. Listar todos los seres vivos \n"
-					+ "3. Modificar seres vivos (modificar ejemplares en el caso de que se avisten más o mueran, modificar vacunas) \n"
+					+ "3. Modificar seres vivos (modificar ejemplares en el caso de que se avisten mÃ¡s o mueran, modificar vacunas) \n"
 					+ "4. Eliminar seres vivos");
 			int opc = Util.leerInt(1, 4);
 			switch (opc) {
@@ -302,7 +365,7 @@ public class Principal {
 					try {
 						FileOutputStream fos = new FileOutputStream(fichVivos, true);
 						MyObjectOutputStream moos = new MyObjectOutputStream(fos);
-						System.out.println("¿Es un animal (1) o una planta (2)?");
+						System.out.println("Â¿Es un animal (1) o una planta (2)?");
 						int opcion = Util.leerInt(1, 2);
 						if (opcion == 1) {
 							Animal animal = new Animal();
@@ -327,7 +390,7 @@ public class Principal {
 					try {
 						FileOutputStream fos = new FileOutputStream(fichVivos);
 						ObjectOutputStream oos = new ObjectOutputStream(fos);
-						System.out.println("¿Es un animal (1) o una planta (2)?");
+						System.out.println("Â¿Es un animal (1) o una planta (2)?");
 						int opcion = Util.leerInt(1, 2);
 						if (opcion == 1) {
 							Animal animal = new Animal();
@@ -353,7 +416,7 @@ public class Principal {
 			} else {
 				System.out.println("Error, el cuidador no existe");
 			}
-			System.out.println("¿Quieres introducir otro ser vivo? (S/N)");
+			System.out.println("Â¿Quieres introducir otro ser vivo? (S/N)");
 			mas = Util.leerChar('S', 'N');
 		} while (mas == 'S');
 	}
