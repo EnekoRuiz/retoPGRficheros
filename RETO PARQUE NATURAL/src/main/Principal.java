@@ -94,6 +94,11 @@ public class Principal {
 			}
 			break;
 		case 4:
+			if (fichCuidadores.exists()) {
+				bajaCuidadores(fichCuidadores);
+			} else {
+				System.out.println("Error, antes debes introducir algun cuidador");
+			}
 			break;
 
 		}
@@ -128,6 +133,71 @@ public class Principal {
 			e.printStackTrace();
 		}
 		return cuidador;
+	}
+	
+	private static void bajaCuidadores(File fichCuidadores) {
+		System.out.println("Introduce el codigo del trabajador que quieres modificar");
+		int codUsuario = Util.leerInt();
+		int cont = Util.calculoFichero(fichCuidadores);
+		boolean modificado=false;
+
+		// Volcado a arraylist
+		ArrayList<Cuidador> cuidadores = new ArrayList<Cuidador>(cont);
+		FileInputStream fis = null;
+		ObjectInputStream ois = null;
+		try {
+			fis = new FileInputStream(fichCuidadores);
+			ois = new ObjectInputStream(fis);
+			for (int i = 0; i < cont; i++) {
+				cuidadores.add(i, (Cuidador) ois.readObject());
+			}
+			ois.close();
+			fis.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found.");
+		} catch (IOException e) {
+			System.out.println(" ");
+		} catch (ClassNotFoundException e) {
+			System.out.println("Error en la lectura de datos.");
+		}
+
+		//Modificacion del boolean Activo
+		for (int i = 0; i < cuidadores.size(); i++) {
+			if(cuidadores.get(i).getCodCuidador()==codUsuario) {
+				System.out.println("Los datos de este cuidador son:");
+				cuidadores.get(i).getDatos();
+				System.out.println("Desea darle de baja?(S/N)");
+				char opc = Util.leerChar();
+				if(opc=='S') {
+					cuidadores.get(i).setActivo(false);
+					modificado=true;
+				} else {
+					i=cuidadores.size();
+				}
+			} else {
+				System.out.println("Error, no se han encontrado cuidadores con ese codigo");
+			}
+		}
+		
+		//Se han realizado cambios, se vuelcan los datos del arraylist al fichero
+		if(modificado) {
+			try {
+				FileOutputStream fos=new FileOutputStream (fichCuidadores);
+				ObjectOutputStream oos =new ObjectOutputStream(fos);
+				for (int i=0; i<cont-1; i++){
+					oos.writeObject(cuidadores.get(i));
+				}
+				oos.close();
+				fos.close();
+			} catch (FileNotFoundException e) {
+				System.out.println("File not found.");
+			} catch (IOException e) {
+				System.out.println(" ");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			System.out.println("Modificacion realizada con exito");
+		}
 	}
 
 	private static void modificarCuidadores(File fichCuidadores) {
