@@ -62,9 +62,9 @@ public class Animal extends SerVivo {
 		boolean esta = false;
 		char seguir;
 		super.setDatos(wCod);
-		System.out.println("El animal es vertebrado?");
+		System.out.println("El animal es vertebrado?(True/False)");
 		vertebrado = Util.leerBoolean();
-		System.out.println("Introduce el alimento del animal: ");
+		System.out.println("Introduce el alimento del animal: (Carnivoro/Herbivoro/Omnivoro)");
 		alimento = Util.introducirCadena();
 		System.out.println("Introduce el metodo de desplazamiento: ");
 		desplazamiento = Util.introducirCadena();

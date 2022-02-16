@@ -1,5 +1,7 @@
 package clases;
 
+import java.util.ArrayList;
+
 import util.Util;
 
 public class Planta extends SerVivo {

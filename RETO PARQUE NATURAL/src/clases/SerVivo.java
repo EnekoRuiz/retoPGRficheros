@@ -77,25 +77,25 @@ public class SerVivo implements Serializable {
 	public void setCodCuidador(List<Integer> codCuidador) {
 		this.codCuidador = codCuidador;
 	}
-	
+
 	public void borrarCuidador(int codUsuario) {
-		for(int i=0;i<codCuidador.size();i++) {
-			if(codCuidador.get(i)==codUsuario) {
+		for (int i = 0; i < codCuidador.size(); i++) {
+			if (codCuidador.get(i) == codUsuario) {
 				codCuidador.remove(i);
 			}
 		}
 	}
-	
+
 	public boolean encontrarCuidador(int codUsuario) {
-		boolean encontrado=false;
-		for(int i=0;i<codCuidador.size();i++) {
-			if(codCuidador.get(i)==codUsuario) {
-				encontrado=true;
+		boolean encontrado = false;
+		for (int i = 0; i < codCuidador.size(); i++) {
+			if (codCuidador.get(i) == codUsuario) {
+				encontrado = true;
 			}
 		}
 		return encontrado;
 	}
-	
+
 	// setDatos
 	public void setDatos(int wCod) {
 		char seguir;
@@ -114,7 +114,7 @@ public class SerVivo implements Serializable {
 			} else {
 				codCuidador.add(wCod);
 			}
-			System.out.println("Quieres introducir mas cuidadores? (S/N)");
+			System.out.println("Quieres introducir mas cuidadores para ese ser vivo? (S/N)");
 			seguir = Util.leerChar('S', 'N');
 		} while (seguir != 'N');
 

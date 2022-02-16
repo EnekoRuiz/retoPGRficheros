@@ -1,4 +1,4 @@
- package clases;
+package clases;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -84,7 +84,7 @@ public class Cuidador implements Serializable {
 		apellidos = Util.introducirCadena();
 		System.out.println("\nIntroduce la fecha de alta del cuidador: (DD/MM/AAAA) ");
 		fechaAlta = Util.leerFechaDMA();
-		System.out.println("\nIntroduce la fecha de nacimiento del cuidador: ");
+		System.out.println("\nIntroduce la fecha de nacimiento del cuidador: (DD/MM/AAAA) ");
 		fechaNac = Util.leerFechaDMA();
 		System.out.println("\nIntroduce la formacion del cuidador: ");
 		formacion = Util.introducirCadena();
