@@ -30,15 +30,15 @@ public class Principal {
 
 		do {
 			System.out.println("\n1.-CRUD cuidadores." + "\n2.-CRUD seres vivos."
-					+ "\n3.-Listar seres vivos por tamaño." + "\n4.-Listar animales por alimento."
+					+ "\n3.-Listar seres vivos por tamaÃ±o." + "\n4.-Listar animales por alimento."
 					+ "\n5.-Sacar los datos de las plantas que tengan flores."
 					+ "\n6.-Listar de que seres vivos se encarga cada cuidador."
-					+ "\n7.-Introduce formación y listar los cuidadores que la tengan."
-					+ "\n8.-Listado de cuantos cuidadores hay por cada formación."
-					+ "\n9.-Listado de hábitats y cuantos seres vivos se encuentran en el."
-					+ "\n10.-Listado de los trabajadores por años trabajados." + "\n11.-Listar las plantas por color."
+					+ "\n7.-Introduce formaciÃ³n y listar los cuidadores que la tengan."
+					+ "\n8.-Listado de cuantos cuidadores hay por cada formaciÃ³n."
+					+ "\n9.-Listado de hÃ¡bitats y cuantos seres vivos se encuentran en el."
+					+ "\n10.-Listado de los trabajadores por aÃ±os trabajados." + "\n11.-Listar las plantas por color."
 					+ "\n12.-Salir.");
-			System.out.println("Elige una opción: ");
+			System.out.println("Elige una opciÃ³n: ");
 			opc = Util.leerInt(1, 12);
 			switch (opc) {
 			case 1:
@@ -108,6 +108,25 @@ public class Principal {
 
 		}
 
+	}
+	
+	private static void listadoNumSeis(File fichVivos, File fichCuidadores) {
+		int cuantos=Util.calculoFichero(fichCuidadores);
+		int cont=Util.calculoFichero(fichVivos);
+		ArrayList<SerVivo> seresVivos = volcarSerVivo(fichVivos, cont);
+		ArrayList<Cuidador> cuidadores = volcarCuidador(fichCuidadores, cuantos);
+		
+		for(Cuidador c : cuidadores) {
+			System.out.println("Los datos del Cuidador");
+			c.getDatos();
+			for(SerVivo s : seresVivos) {
+				boolean encontrado = s.encontrarCuidador(c.getCodCuidador());
+				if(encontrado) {
+					s.getDatos();
+				}
+			}
+			System.out.println("---------------------");
+		}
 	}
 
 	private static Cuidador busquedaCuidador(File fichCuidadores, int wCod) {
@@ -325,7 +344,7 @@ public class Principal {
 	private static void crudSeresVivos(File fichVivos, File fichCuidadores) {
 		if (fichCuidadores.exists()) {
 			System.out.println("1. Alta de un ser vivo\n" + "2. Listar todos los seres vivos \n"
-					+ "3. Modificar seres vivos (modificar ejemplares en el caso de que se avisten más o mueran, modificar vacunas) \n"
+					+ "3. Modificar seres vivos (modificar ejemplares en el caso de que se avisten mÃ¡s o mueran, modificar vacunas) \n"
 					+ "4. Eliminar seres vivos\n" + "5. Salir");
 			int opc = Util.leerInt(1, 5);
 			switch (opc) {
@@ -370,7 +389,7 @@ public class Principal {
 		seresVivos = volcarSerVivo(fichVivos, cuantos);
 		for (int i=0; i<seresVivos.size();i++) {
 			if (serUsuario.equalsIgnoreCase(seresVivos.get(i).getNombreCientifico())) {
-				System.out.println("Estos son los datos del ser vivo, �seguro que quieres eliminarlo? (1=si/2=no)");
+				System.out.println("Estos son los datos del ser vivo, ¿seguro que quieres eliminarlo? (1=si/2=no)");
 				seresVivos.get(i).getDatos();
 				int opc = Util.leerInt(1, 2);
 				if (opc==1) {
@@ -432,7 +451,7 @@ public class Principal {
 	private static SerVivo inModificarSerVivo(SerVivo serVivoModificar, File fichCuidadores) {
 		boolean salir = false;
 		do {
-			System.out.println("�Que desea modificar? \n" + " 1) Ejemplares \n" + " 2) Cuidadores a su cargo \n");
+			System.out.println("¿Que desea modificar? \n" + " 1) Ejemplares \n" + " 2) Cuidadores a su cargo \n");
 			if (serVivoModificar instanceof Animal) {
 				System.out.print("3) Desplazamiento");
 			} else {
@@ -444,7 +463,7 @@ public class Principal {
 			switch (opcion) {
 
 			case 1:
-				System.out.println("�Cuantos ejemplares hay?");
+				System.out.println("¿Cuantos ejemplares hay?");
 				serVivoModificar.setEjemplares(Util.leerInt());
 				break;
 
@@ -454,7 +473,7 @@ public class Principal {
 				for (int e = 0; e < codigos.size(); e++) {
 					System.out.println(codigos.get(e));
 				}
-				System.out.println("�Quieres eliminar (1) o añadir (2) un codigo?");
+				System.out.println("¿Quieres eliminar (1) o aÃ±adir (2) un codigo?");
 				int respuesta = Util.leerInt();
 				int codUsuario;
 
@@ -471,7 +490,7 @@ public class Principal {
 					} else
 						System.out.println("Error, ese codigo no existe");
 				} else {
-					System.out.println("Introduce el codigo que deseas añadir");
+					System.out.println("Introduce el codigo que deseas aÃ±adir");
 					codUsuario = Util.leerInt();
 					Cuidador cuidador = busquedaCuidador(fichCuidadores, codUsuario);
 					if (cuidador != null) {
@@ -485,11 +504,11 @@ public class Principal {
 
 			case 3:
 				if (serVivoModificar instanceof Animal) {
-					System.out.println("�Que tipo de desplzamiento tiene?");
+					System.out.println("¿Que tipo de desplzamiento tiene?");
 					((Animal) serVivoModificar).setDesplazamiento(Util.introducirCadena());
 					System.out.println("El desplazamiento se ha modificado correctamente");
 				} else {
-					System.out.println("�Que color tiene?");
+					System.out.println("¿Que color tiene?");
 					((Planta) serVivoModificar).setColor(Util.introducirCadena());
 					System.out.println("El color se ha modificado correctamente");
 				}
@@ -621,7 +640,7 @@ public class Principal {
 					try {
 						FileOutputStream fos = new FileOutputStream(fichVivos, true);
 						MyObjectOutputStream moos = new MyObjectOutputStream(fos);
-						System.out.println("¿Es un animal (1) o una planta (2)?");
+						System.out.println("Â¿Es un animal (1) o una planta (2)?");
 						int opcion = Util.leerInt(1, 2);
 						if (opcion == 1) {
 							Animal animal = new Animal();
@@ -646,7 +665,7 @@ public class Principal {
 					try {
 						FileOutputStream fos = new FileOutputStream(fichVivos);
 						ObjectOutputStream oos = new ObjectOutputStream(fos);
-						System.out.println("¿Es un animal (1) o una planta (2)?");
+						System.out.println("Â¿Es un animal (1) o una planta (2)?");
 						int opcion = Util.leerInt(1, 2);
 						if (opcion == 1) {
 							Animal animal = new Animal();
@@ -670,7 +689,7 @@ public class Principal {
 			} else {
 				System.out.println("El codigo del cuidador no se ha encontrado.");
 			}
-			System.out.println("¿Quieres introducir otro ser vivo? (S/N)");
+			System.out.println("Â¿Quieres introducir otro ser vivo? (S/N)");
 			mas = Util.leerChar('S', 'N');
 		} while (mas == 'S');
 	}
