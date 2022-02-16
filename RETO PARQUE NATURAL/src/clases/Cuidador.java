@@ -1,10 +1,11 @@
-package clases;
+ package clases;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import util.Util;
 
-public class Cuidador {
+public class Cuidador implements Serializable {
 
 	private int codCuidador;
 	private String nombre;
@@ -12,9 +13,7 @@ public class Cuidador {
 	private LocalDate fechaAlta;
 	private LocalDate fechaNac;
 	private String formacion;
-	private boolean activo;
 
-	
 	// Constructor
 	public Cuidador() {
 		super();
@@ -23,14 +22,6 @@ public class Cuidador {
 	// Getters y setters
 	public int getCodCuidador() {
 		return codCuidador;
-	}
-
-	public boolean isActivo() {
-		return activo;
-	}
-
-	public void setActivo(boolean activo) {
-		this.activo = activo;
 	}
 
 	public void setCodCuidador(int codCuidador) {
@@ -82,23 +73,22 @@ public class Cuidador {
 				+ ", empezo a trabajar el " + fechaAlta + ", nacio el " + fechaNac + " y tiene la formacion de "
 				+ formacion);
 	}
-	
-	//setDatos
-		public void setDatos(int codCuidador) {
-			this.codCuidador = codCuidador;
-			System.out.println("El codigo se ha generado automaticamente, tu codigo es el: "+ codCuidador);
-			System.out.println("\nIntroduce el nombre del cuidador: ");
-			nombre=Util.introducirCadena();
-			System.out.println("\nIntroduce los apellidos del cuidador: ");
-			apellidos=Util.introducirCadena();
-			System.out.println("\nIntroduce la fecha de alta del cuidador: (DD/MM/AAAA) ");
-			fechaAlta=Util.leerFechaDMA();
-			System.out.println("\nIntroduce la fecha de nacimiento del cuidador: ");
-			fechaNac=Util.leerFechaDMA();
-			System.out.println("\nIntroduce la formacion del cuidador: ");
-			formacion=Util.introducirCadena();
-			
-		}
 
-	
+	// setDatos
+	public void setDatos(int codCuidador) {
+		this.codCuidador = codCuidador;
+		System.out.println("El codigo se ha generado automaticamente, tu codigo es el: " + codCuidador);
+		System.out.println("\nIntroduce el nombre del cuidador: ");
+		nombre = Util.introducirCadena();
+		System.out.println("\nIntroduce los apellidos del cuidador: ");
+		apellidos = Util.introducirCadena();
+		System.out.println("\nIntroduce la fecha de alta del cuidador: (DD/MM/AAAA) ");
+		fechaAlta = Util.leerFechaDMA();
+		System.out.println("\nIntroduce la fecha de nacimiento del cuidador: ");
+		fechaNac = Util.leerFechaDMA();
+		System.out.println("\nIntroduce la formacion del cuidador: ");
+		formacion = Util.introducirCadena();
+
+	}
+
 }

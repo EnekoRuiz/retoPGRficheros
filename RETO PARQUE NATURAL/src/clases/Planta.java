@@ -46,17 +46,28 @@ public class Planta extends SerVivo {
 	public void setTipoReproduccion(String tipoReproduccion) {
 		this.tipoReproduccion = tipoReproduccion;
 	}
-	
-	
+
 	public void setDatos(int wCod) {
 		super.setDatos(wCod);
 		System.out.println("Introduce el tipo de planta: ");
-		tipoPlanta=Util.introducirCadena();
+		tipoPlanta = Util.introducirCadena();
 		System.out.println("La planta tiene flores? (True/False)");
-		flores=Util.leerBoolean();
+		flores = Util.leerBoolean();
 		System.out.println("Introduce el color de la planta: ");
-		color=Util.introducirCadena();
+		color = Util.introducirCadena();
 		System.out.println("Introduce el tipo de reproduccion: ");
-		tipoReproduccion=Util.introducirCadena();
+		tipoReproduccion = Util.introducirCadena();
+	}
+
+	public void getDatos() {
+		super.getDatos();
+		String flor;
+		if (flores == true) {
+			flor = "tiene flores";
+		} else {
+			flor = "no tiene flores";
+		}
+		System.out.print("Ademas es una planta " + tipoPlanta + " que " + flor + ", tiene como color principal el "
+				+ color + " y se reproduce de la siguiente manera: " + tipoReproduccion + "\n");
 	}
 }

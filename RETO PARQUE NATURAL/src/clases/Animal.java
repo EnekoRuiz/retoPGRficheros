@@ -57,23 +57,23 @@ public class Animal extends SerVivo {
 	public void setVacunas(List<String> vacunas) {
 		this.vacunas = vacunas;
 	}
-	
+
 	public void setDatos(int wCod) {
-		boolean esta=false;
+		boolean esta = false;
 		char seguir;
 		super.setDatos(wCod);
 		System.out.println("El animal es vertebrado?");
-		vertebrado=Util.leerBoolean();
+		vertebrado = Util.leerBoolean();
 		System.out.println("Introduce el alimento del animal: ");
-		alimento=Util.introducirCadena();
+		alimento = Util.introducirCadena();
 		System.out.println("Introduce el metodo de desplazamiento: ");
-		desplazamiento=Util.introducirCadena();
+		desplazamiento = Util.introducirCadena();
 		System.out.println("Introduce la clase de animal: ");
-		clase=Util.introducirCadena();
-		
+		clase = Util.introducirCadena();
+
 		do {
 			System.out.println("Introduce la vacuna: ");
-			String wVacuna=Util.introducirCadena();
+			String wVacuna = Util.introducirCadena();
 			for (int i = 0; i < vacunas.size(); i++) {
 				if (vacunas.get(i).equals(wVacuna)) {
 					esta = true;
@@ -88,5 +88,17 @@ public class Animal extends SerVivo {
 			System.out.println("Quieres introducir mas vacunas? (S/N)");
 			seguir = Util.leerChar('S', 'N');
 		} while (seguir != 'N');
+	}
+
+	public void getDatos() {
+		super.getDatos();
+		String hueso;
+		if (vertebrado == true) {
+			hueso = "vertebrado";
+		} else {
+			hueso = "invertebrado";
+		}
+		System.out.print("Ademas es un " + hueso + " que tiene una dieta " + alimento
+				+ ", se desplaza de la siguiente manera: " + desplazamiento + " y es un " + clase + "\n");
 	}
 }

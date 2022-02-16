@@ -1,11 +1,12 @@
 package clases;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import util.Util;
 
-public class SerVivo {
+public class SerVivo implements Serializable {
 
 	private String nombreCientifico;
 	private String habitat;
@@ -76,12 +77,20 @@ public class SerVivo {
 	public void setCodCuidador(List<Integer> codCuidador) {
 		this.codCuidador = codCuidador;
 	}
-
+	
+	public void borrarCuidador(int codUsuario) {
+		for(int i=0;i<codCuidador.size();i++) {
+			if(codCuidador.get(i)==codUsuario) {
+				codCuidador.remove(i);
+			}
+		}
+	}
 	// setDatos
 	public void setDatos(int wCod) {
 		char seguir;
 		boolean esta = false;
-//Comprobar que no introduzca de nuevo el mismo codigo de cuidador a un ser vivo
+		// Comprobar que no introduzca de nuevo el mismo codigo de cuidador a un ser
+		// vivo
 		do {
 			for (int i = 0; i < codCuidador.size(); i++) {
 				if (codCuidador.get(i).equals(wCod)) {
@@ -102,7 +111,7 @@ public class SerVivo {
 		nombreCientifico = Util.introducirCadena();
 		System.out.println("Introduce el habitat");
 		habitat = Util.introducirCadena();
-		System.out.println("Introduce el tamano medio");
+		System.out.println("Introduce el tamano medio (cm)");
 		tamannoMedio = Util.leerFLoat();
 		System.out.println("Introduce el nombre vulgar");
 		nombreVulgar = Util.introducirCadena();
@@ -110,6 +119,12 @@ public class SerVivo {
 		descripcion = Util.introducirCadena();
 		System.out.println("Introduce el numero de ejemplares");
 		ejemplares = Util.leerInt();
+	}
 
+	public void getDatos() {
+		System.out.println("El nombre cientifico del ser vivo es " + nombreCientifico + ", su habitat es " + habitat
+				+ ", el tamaño medio de la especie es " + tamannoMedio + "cm, su nombre vulgar es " + nombreVulgar
+				+ ", tiene " + ejemplares + " ejemplares en el parque y su descripcion es la siguiente:"
+				+ descripcion);
 	}
 }
