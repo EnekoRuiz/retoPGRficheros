@@ -85,6 +85,17 @@ public class SerVivo implements Serializable {
 			}
 		}
 	}
+	
+	public boolean encontrarCuidador(int codUsuario) {
+		boolean encontrado=false;
+		for(int i=0;i<codCuidador.size();i++) {
+			if(codCuidador.get(i)==codUsuario) {
+				encontrado=true;
+			}
+		}
+		return encontrado;
+	}
+	
 	// setDatos
 	public void setDatos(int wCod) {
 		char seguir;
