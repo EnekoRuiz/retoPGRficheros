@@ -792,19 +792,25 @@ public class Principal {
 	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	private static void listadoNumSeis(File fichVivos, File fichCuidadores) {
-		ArrayList<SerVivo> seresVivos = volcarSerVivo(fichVivos);
-		ArrayList<Cuidador> cuidadores = volcarCuidador(fichCuidadores);
-
-		for (Cuidador c : cuidadores) {
-			System.out.println("Los datos del Cuidador");
+		int cuantos=Util.calculoFichero(fichCuidadores);
+		int cont=Util.calculoFichero(fichVivos);
+		int contCuid=1, contSer=1;
+		ArrayList<SerVivo> seresVivos = volcarSerVivo(fichVivos, cont);
+		ArrayList<Cuidador> cuidadores = volcarCuidador(fichCuidadores, cuantos);
+		
+		for(Cuidador c : cuidadores) {
+			System.out.println("--------------*Cuidador "+contCuid+"*----------------");
+			contCuid++;
 			c.getDatos();
-			for (SerVivo s : seresVivos) {
+			for(SerVivo s : seresVivos) {
 				boolean encontrado = s.encontrarCuidador(c.getCodCuidador());
-				if (encontrado) {
+				if(encontrado) {
+					System.out.println("*SerVivo "+contSer+"*");
+					contSer++;
 					s.getDatos();
 				}
 			}
-			System.out.println("---------------------");
+			System.out.println("-----------------------------------------");
 		}
 	}
 
