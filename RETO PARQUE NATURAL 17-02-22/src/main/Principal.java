@@ -69,7 +69,7 @@ public class Principal {
 					listadoCuidadoresPorAnnosTrabajados(fichCuidadores);
 					break;
 				case 11:
-					listadoPlantasPorColor(fichVivos);
+					listadoPorColor(fichVivos);
 					break;
 				case 12:
 					break;
@@ -868,9 +868,33 @@ public class Principal {
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	private static void listadoPlantasPorColor(File fichVivos) {
-		ArrayList<SerVivo> serVivos = volcarSerVivo(fichVivos);
-
+	private static void listadoPorColor(File fichVivos) {
+		int cont = Util.calculoFichero(fichVivos);
+		ArrayList<SerVivo> seresVivos = volcarSerVivo(fichVivos, cont);
+		ArrayList<AuxColor> auxColor = new ArrayList<AuxColor>();
+		boolean esta;
+		
+		for (int i = 0; i < seresVivos.size(); i++) {
+			esta=false;
+			if (seresVivos.get(i) instanceof Planta) {
+				for (int j = 0; j < auxColor.size(); j++) {
+					if (auxColor.get(j).getColor().equalsIgnoreCase(((Planta) seresVivos.get(i)).getColor())) {
+						esta=true;
+						auxColor.get(j).setVeces(auxColor.get(j).getVeces()+1);
+						j=auxColor.size();
+					}
+				}
+				if(!esta) {
+					AuxColor auxiliarColor = new AuxColor(((Planta)seresVivos.get(i)).getColor(), 1);
+					auxColor.add(auxiliarColor);
+				}
+			}
+		}
+		Collections.sort(auxColor);
+		System.out.println("Color               Veces");
+		for(AuxColor a: auxColor) {
+			System.out.println(a.getColor()+"                 "+a.getVeces());
+		}
 	}
 
 	// FIN DE LOS METODOS
