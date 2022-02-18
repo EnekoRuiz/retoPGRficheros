@@ -722,7 +722,7 @@ public class Principal {
 			try {
 				ois = new ObjectInputStream(new FileInputStream(fichVivos));
 				int cuantos = Util.calculoFichero(fichVivos);
-				System.out.println("El nombre vulgar de las plantas con flores es la siguiente");
+				System.out.println("El nombre vulgar de las plantas con flores es el siguiente");
 				for (int i = 0; i < cuantos; i++) {
 					Object aux = ois.readObject();
 					if (aux instanceof Planta) {
