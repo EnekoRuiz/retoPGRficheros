@@ -82,48 +82,45 @@ public class Cuidador implements Serializable {
 
 	// setDatos
 	public void setDatos(int codCuidador) {
-		LocalDate probarFechaNacimiento;
-		LocalDate probarFechaAlta;
-		boolean comprobacionFechaNacimiento = true;
-		boolean comprobacionFechaAlta = false;
+		LocalDate pruebaFechaNacimiento;
+		LocalDate pruebaFechaAlta;
+		boolean pasarseFecha = true;
 		this.codCuidador = codCuidador;
 		System.out.println("El codigo se ha generado automaticamente, tu codigo es el: " + codCuidador);
 		System.out.println("\nIntroduce el nombre del cuidador: ");
 		nombre = Util.introducirCadena();
 		System.out.println("\nIntroduce los apellidos del cuidador: ");
 		apellidos = Util.introducirCadena();
-		while (comprobacionFechaNacimiento) {
+		while (pasarseFecha) {
 
 			System.out.println("\nIntroduce la fecha de nacimiento del cuidador: (DD/MM/AAAA) ");
-			probarFechaNacimiento = Util.leerFechaDMA();
-			comprobacionFechaNacimiento = fechaNacimientoCorrecta(probarFechaNacimiento, comprobacionFechaNacimiento);
+			pruebaFechaNacimiento = Util.leerFechaDMA();
+			pasarseFecha = fechaNacimientoCorrecta(pruebaFechaNacimiento, pasarseFecha);
 
-			while (!comprobacionFechaAlta) {
-				System.out.println("\nIntroduce la fecha de alta del cuidador: (DD/MM/AAAA) ");
-				probarFechaAlta = Util.leerFechaDMA();
-				comprobacionFechaAlta = comprobacionFechaAltaMayorAlActual(probarFechaAlta, comprobacionFechaAlta);
-				comprobacionFechaAlta = true;
-			}
-			comprobacionFechaAlta = false;
 		}
-
+		while (!pasarseFecha) {
+			System.out.println("\nIntroduce la fecha de alta del cuidador: (DD/MM/AAAA) ");
+			pruebaFechaAlta = Util.leerFechaDMA();
+			pasarseFecha = comprobacionFechaAltaMayorAlActual(pruebaFechaAlta, pasarseFecha);
+		}
 		System.out.println("\nIntroduce la formacion del cuidador: ");
 		formacion = Util.introducirCadena();
 
 	}
 
-	// get años Trabajados
+	// get aÃ±os Trabajados
 	public int getCalculoAnnosTrabajados() {
 		int calcularAnnos = 1;
 		Period diferenciaEdad;
-		diferenciaEdad = Period.between(fechaAlta, fechaNac);
+		LocalDate hoy = LocalDate.now();
+		diferenciaEdad = Period.between(fechaAlta, hoy);
 		calcularAnnos = diferenciaEdad.getYears();
 		return calcularAnnos;
 	}
 
 	// METODOS PARA CONTROLAR LAS FECHAS
 
-	private boolean comprobacionFechas(LocalDate probarFecha) {
+	private boolean comprobacionFechaAltaPosteriorNacimiento(LocalDate probarFecha) {
 		boolean comprobacion;
 		Period diferenciaEdad;
 		diferenciaEdad = Period.between(fechaNac, probarFecha);
@@ -136,32 +133,35 @@ public class Cuidador implements Serializable {
 	public boolean comprobacionNoPasarseDeFecha(LocalDate fechaIntroducida) {
 		boolean comprobacion;
 		Period diferenciaEdad;
-		diferenciaEdad = Period.between(fechaIntroducida, LocalDate.now());
+		LocalDate hoy = LocalDate.now();
+
+		diferenciaEdad = Period.between(fechaIntroducida, hoy);
 		comprobacion = diferenciaEdad.isNegative();
 		return comprobacion;
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	private boolean fechaNacimientoCorrecta(LocalDate probarFecha1, boolean pasarseFecha) {
-		boolean comprobacion1 = comprobacionNoPasarseDeFecha(probarFecha1);
+	private boolean fechaNacimientoCorrecta(LocalDate pruebaFechaNacimiento, boolean pasarseFecha) {
+		boolean comprobacion1 = comprobacionNoPasarseDeFecha(pruebaFechaNacimiento);
 		if (!comprobacion1) {
-			fechaNac = probarFecha1;
+			fechaNac = pruebaFechaNacimiento;
 			pasarseFecha = false;
 		} else {
-			System.out.println("No es posible introducir una fecha de nacimiento superior al dia actual.");
+			System.out.println(
+					"No es posible introducir una fecha de nacimiento superior al dia actual.");
 		}
 		return pasarseFecha;
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	private boolean fechaAltaCorrecta(LocalDate probarFecha2, boolean pasarseFecha) {
+	private boolean fechaAltaCorrecta(LocalDate pruebaFechaAlta, boolean pasarseFecha) {
 		// Comprobar que la fecha de Alta sea posterior a la fecha de Nacimiento
-		boolean comprobacion2 = comprobacionFechas(probarFecha2);
+		boolean comprobacion2 = comprobacionFechaAltaPosteriorNacimiento(pruebaFechaAlta);
 		if (!comprobacion2) {
-			fechaAlta = probarFecha2;
-			pasarseFecha = false;
+			fechaAlta = pruebaFechaAlta;
+			pasarseFecha = true;
 		} else {
 			System.out.println(
 					"No es posible introducir una fecha de alta anterior a la fecha de nacimiento introducida.");
@@ -169,10 +169,12 @@ public class Cuidador implements Serializable {
 		return pasarseFecha;
 	}
 
-	private boolean comprobacionFechaAltaMayorAlActual(LocalDate probarFecha2, boolean pasarseFecha) {
-		pasarseFecha = comprobacionNoPasarseDeFecha(probarFecha2);
+	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	private boolean comprobacionFechaAltaMayorAlActual(LocalDate pruebaFechaAlta, boolean pasarseFecha) {
+		pasarseFecha = comprobacionNoPasarseDeFecha(pruebaFechaAlta);
 		if (!pasarseFecha) {
-			pasarseFecha = fechaAltaCorrecta(probarFecha2, pasarseFecha);
+			pasarseFecha = fechaAltaCorrecta(pruebaFechaAlta, pasarseFecha);
 		} else {
 			System.out.println("No es posible introducir una fecha de alta superior al dia actual.");
 			pasarseFecha = false;
