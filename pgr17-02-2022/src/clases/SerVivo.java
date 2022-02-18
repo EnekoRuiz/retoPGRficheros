@@ -119,7 +119,7 @@ public class SerVivo implements Serializable {
 		System.out.println("Introduce el nombre cientifico");
 		nombreCientifico = Util.introducirCadena();
 		System.out.println("Introduce el habitat");
-		habitat = Util.introducirCadena().toLowerCase();
+		habitat = Util.introducirCadena();
 		System.out.println("Introduce el tamano medio (cm)");
 		tamannoMedio = Util.leerFLoat();
 		System.out.println("Introduce el nombre vulgar");
