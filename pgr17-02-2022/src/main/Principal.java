@@ -829,7 +829,7 @@ public class Principal {
 	private static void listarCuidadoresPorFormacion(File fichCuidadores) {
 		System.out.println("Introduce la formacion");
 		ArrayList<Cuidador> cuidadores = volcarCuidador(fichCuidadores);
-		String formUsuario = Util.introducirCadena();
+		String formUsuario = Util.introducirCadena().toLowerCase();
 		for (int i = 0; i < cuidadores.size(); i++) {
 			if (cuidadores.get(i).getFormacion().contains(formUsuario)) {
 				cuidadores.get(i).getDatos();
