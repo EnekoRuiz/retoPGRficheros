@@ -855,19 +855,47 @@ public class Principal {
 	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 	private static void listarCuidadoresPorFormacion(File fichCuidadores) {
 		System.out.println("Introduce la formacion");
+		String formUsuario = Util.introducirCadena();
 		ArrayList<Cuidador> cuidadores = volcarCuidador(fichCuidadores);
-		String formUsuario = Util.introducirCadena().toLowerCase();
+		boolean alguno=true;
+		System.out.println("Los cuidadores con formacion "+formUsuario+" son:");
 		for (int i = 0; i < cuidadores.size(); i++) {
 			if (cuidadores.get(i).getFormacion().contains(formUsuario)) {
 				cuidadores.get(i).getDatos();
+				alguno=false;
 			}
 		}
-
+		if (alguno)
+		System.out.println("Error, no se ha encontrado ningun cuidador con ese codigo");
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	private static void listadoEspecialCuidadoresPorFormacion(File fichCuidadores) {
+		ArrayList <Cuidador> cuidadores = volcarCuidador(fichCuidadores);
+		ArrayList <AuxCuidador> auxCuidador = new ArrayList<AuxCuidador>();
+		boolean existe;
+		
+		for (int i=0; i<cuidadores.size();i++) {
+			existe = false;
+			for (int j=0; j<auxCuidador.size();j++) {
+				if (cuidadores.get(i).getFormacion().equalsIgnoreCase(auxCuidador.get(j).getFormacion())) {
+					auxCuidador.get(j).getCodigos().add(cuidadores.get(i).getCodCuidador());
+					j=auxCuidador.size();
+					existe = true;
+				}
+			}
+			if (!existe) {
+				AuxCuidador a = new AuxCuidador(cuidadores.get(i).getFormacion());
+				a.getCodigos().add(cuidadores.get(i).getCodCuidador());
+				auxCuidador.add(a);
+			}
+		}
+		Collections.sort(auxCuidador);
+		System.out.println(" FORMACION | CODIGOS ");
+		for (AuxCuidador e:auxCuidador){
+			System.out.println(e.getFormacion()+" | "+e.getCodigos());
+		}
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
