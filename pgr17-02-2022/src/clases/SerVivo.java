@@ -96,37 +96,26 @@ public class SerVivo implements Serializable {
 		}
 		return encontrado;
 	}
-
-	// setDatos
-	public void setDatos(int wCod) {
+	public void setCodigo(File Cuidadores, int wCod) {
 		char seguir;
 		boolean esta = false;
-		// Comprobar que no introduzca de nuevo el mismo codigo de cuidador a un ser
-		// vivo
-		do {
-			for (int i = 0; i < codCuidador.size(); i++) {
-				if (codCuidador.get(i).equals(wCod)) {
-					esta = true;
-					i = codCuidador.size();
-				}
+		
+		for (int i = 0; i < codCuidador.size(); i++) {
+			if (codCuidador.get(i).equals(wCod)) {
+				esta = true;
+				i = codCuidador.size();
 			}
-			Cuidador cuidador = busquedaCuidador(File fichCuidadores, wCod);
-			if (esta) {
-				System.out.println("El cuidador ya esta introducido");
-			} else {
-				codCuidador.add(wCod);
-			}
-			System.out.println("Quieres introducir mas cuidadores para ese ser vivo? (S/N)");
-			seguir = Util.leerChar('S', 'N');
-			
-			
-			if(seguir=='S') {
-				System.out.println("Introduce el codigo");
-				wCod = Util.leerInt();
-				esta=false;
-			}
-		} while (seguir != 'N');
-
+		}
+		if (esta) {
+			System.out.println("El cuidador ya esta introducido");
+		} else {
+			codCuidador.add(wCod);
+		}	
+		
+	}
+	
+	// setDatos
+	public void setDatos() {
 		System.out.println("Introduce el nombre cientifico");
 		nombreCientifico = Util.introducirCadena();
 		System.out.println("Introduce el habitat");
