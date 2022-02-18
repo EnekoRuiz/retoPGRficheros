@@ -59,13 +59,39 @@ public class Animal extends SerVivo {
 	}
 
 	public void setDatos(int wCod) {
-		boolean esta = false;
+		boolean esta = false, salir = false;
 		char seguir;
 		super.setDatos(wCod);
-		System.out.println("El animal es vertebrado?(True/False)");
-		vertebrado = Util.leerBoolean();
-		System.out.println("Introduce el alimento del animal: (Carnivoro/Herbivoro/Omnivoro)");
-		alimento = Util.introducirCadena();
+		do {
+			System.out.println("El animal es vertebrado? (Si/No)");
+			String pruebaVertebrado = Util.introducirCadena();
+			if (pruebaVertebrado.equalsIgnoreCase("Si")) {
+				vertebrado = true;
+				salir = true;
+			} else if (pruebaVertebrado.equalsIgnoreCase("No")) {
+				vertebrado = false;
+				salir = true;
+			} else {
+				System.out.println("Introduce las opciones validas.");
+			}
+		} while (!salir);
+		salir = false;
+		do {
+			System.out.println("Introduce el alimento del animal: (Carnivoro/Herbivoro/Omnivoro)");
+			String pruebaAlimento = Util.introducirCadena();
+			if (pruebaAlimento.equalsIgnoreCase("Carnivoro")) {
+				alimento = pruebaAlimento;
+				salir = true;
+			} else if (pruebaAlimento.equalsIgnoreCase("Herbivoro")) {
+				alimento = pruebaAlimento;
+				salir = true;
+			} else if (pruebaAlimento.equalsIgnoreCase("Omnivoro")) {
+				alimento = pruebaAlimento;
+				salir = true;
+			} else {
+				System.out.println("Por favor, introduce una de las opciones.");
+			}
+		} while (!salir);
 		System.out.println("Introduce el metodo de desplazamiento: ");
 		desplazamiento = Util.introducirCadena();
 		System.out.println("Introduce la clase de animal: ");
