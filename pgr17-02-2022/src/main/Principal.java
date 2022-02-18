@@ -227,65 +227,92 @@ public class Principal {
 	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	private static void altaSerVivo(File fichVivos, File fichCuidadores) {
-		char mas;
+		char mas, seguir;
+		
 		do {
-			System.out.println("Introduce el codigo de cuidador");
-			int wCod = Util.leerInt();
-			Cuidador cuidador = busquedaCuidador(fichCuidadores, wCod);
-
-			if (cuidador != null) {
-				// Comprobacion de que existe un fichero de Seres Vivos
-				if (fichVivos.exists()) {
-					try {
-						SerVivo serVivo = null;
-						FileOutputStream fos = new FileOutputStream(fichVivos, true);
-						MyObjectOutputStream moos = new MyObjectOutputStream(fos);
-						System.out.println("Es un animal (1) o una planta (2)?");
-						int opcion = Util.leerInt(1, 2);
-						if (opcion == 1) {
-							serVivo = new Animal();
-						} else {
-							serVivo = new Planta();
-						}
-						serVivo.setDatos(fichCuidadores, wCod);
-						moos.writeObject(serVivo);
-						moos.close();
-						fos.close();
-					} catch (FileNotFoundException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
-					} catch (Exception e) {
-						e.printStackTrace();
+			boolean creado=false;
+			// Comprobacion de que existe un fichero de Seres Vivos
+			if (fichVivos.exists()) {
+				try {
+					SerVivo serVivo = null;
+					FileOutputStream fos = new FileOutputStream(fichVivos, true);
+					MyObjectOutputStream moos = new MyObjectOutputStream(fos);
+					System.out.println("Es un animal (1) o una planta (2)?");
+					int opcion = Util.leerInt(1, 2);
+					if (opcion == 1) {
+						serVivo = new Animal();
+					} else {
+						serVivo = new Planta();
 					}
-
-				} else {
-					try {
-						FileOutputStream fos = new FileOutputStream(fichVivos);
-						ObjectOutputStream oos = new ObjectOutputStream(fos);
-						SerVivo serVivo = null;
-						System.out.println("¿Es un animal (1) o una planta (2)?");
-						int opcion = Util.leerInt(1, 2);
-						if (opcion == 1) {
-							serVivo = new Animal();
+					do {
+						System.out.println("Introduce el codigo de cuidador");
+						int wCod = Util.leerInt();
+						Cuidador cuidador = busquedaCuidador(fichCuidadores, wCod);
+						if (cuidador != null) {
+							serVivo.setCodigo(fichCuidadores, wCod);
+							creado=true;
 						} else {
-							serVivo = new Planta();
+							System.out.println("Error, no se ha encontrado ese codigo de cuidador");
 						}
-						serVivo.setDatos(wCod);
-						oos.writeObject(serVivo);
-						oos.close();
-						fos.close();
-					} catch (FileNotFoundException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+						System.out.println("Quieres introducir otro cuidador para ese ser vivo? (S/N)");
+						seguir = Util.leerChar('S', 'N');
+						if(!creado) {
+							System.out.println("Error, debes introducir al menos un codigo");
+						}
+					} while (seguir == 'S' || !creado);
+					serVivo.setDatos();
+					moos.writeObject(serVivo);
+					moos.close();
+					fos.close();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
+
 			} else {
-				System.out.println("El codigo del cuidador no se ha encontrado.");
+				try {
+					FileOutputStream fos = new FileOutputStream(fichVivos);
+					ObjectOutputStream oos = new ObjectOutputStream(fos);
+					SerVivo serVivo = null;
+					System.out.println("¿Es un animal (1) o una planta (2)?");
+					int opcion = Util.leerInt(1, 2);
+					if (opcion == 1) {
+						serVivo = new Animal();
+					} else {
+						serVivo = new Planta();
+					}
+					do {
+						System.out.println("Introduce el codigo de cuidador");
+						int wCod = Util.leerInt();
+						Cuidador cuidador = busquedaCuidador(fichCuidadores, wCod);
+						if (cuidador != null) {
+							serVivo.setCodigo(fichCuidadores, wCod);
+							creado=true;
+						} else {
+							System.out.println("Error, no se a encontrado ese codigo de cuidador");
+						}
+						System.out.println("Quieres introducir mas cuidadores para ese ser vivo? (S/N)");
+						seguir = Util.leerChar('S', 'N');
+						if(!creado) {
+							System.out.println("Error, debes introducir al menos un codigo");
+						}
+					} while (seguir == 'S' || !creado);
+					serVivo.setDatos();
+					oos.writeObject(serVivo);
+					oos.close();
+					fos.close();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
+
 			System.out.println("¿Quieres introducir otro ser vivo? (S/N)");
 			mas = Util.leerChar('S', 'N');
 		} while (mas == 'S');
