@@ -104,7 +104,7 @@ public class Cuidador implements Serializable {
 			pasarseFecha = comprobacionFechaAltaMayorAlActual(pruebaFechaAlta, pasarseFecha);
 		}
 		System.out.println("\nIntroduce la formacion del cuidador: ");
-		formacion = Util.introducirCadena();
+		formacion = Util.introducirCadena().toLowerCase();
 
 	}
 
