@@ -744,35 +744,45 @@ public class Principal {
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	private static void listadoAnimalesPorAlimento(File fichVivos) throws IOException {
+	private static void listadoAnimalesPorAlimento(File fichVivos) {
+		ArrayList<AuxAlimento> auxAlimento = new ArrayList<AuxAlimento>();
 		ObjectInputStream ois = null;
+		boolean existe;
 		if (fichVivos.exists()) {
 			try {
 				ois = new ObjectInputStream(new FileInputStream(fichVivos));
 				int cuantos = Util.calculoFichero(fichVivos);
 				for (int i = 0; i < cuantos; i++) {
-					Object aux = ois.readObject();
+					existe = false;
+					SerVivo aux = (SerVivo) ois.readObject();
 					if (aux instanceof Animal) {
-						if (((Animal) aux).getAlimento().equalsIgnoreCase("Carnivoro")) {
-							String nombre = ((Animal) aux).getNombreVulgar();
-							System.out.println("Animal Carnivoro:");
-							System.out.println(nombre);
+						Animal auxAnimal = (Animal) aux;
+						for (int j = 0; j < auxAlimento.size(); j++) {
+							if (auxAnimal.getAlimento().equalsIgnoreCase(auxAlimento.get(j).getAlimento())) {
+								auxAlimento.get(j).getNombresVulgares().add(auxAnimal.getNombreVulgar());
+								j = auxAlimento.size();
+								existe = true;
+							}
 						}
-						if (((Animal) aux).getAlimento().equalsIgnoreCase("Herbivoro")) {
-							String nombre = ((Animal) aux).getNombreVulgar();
-							System.out.println("Animal Herbivoro:");
-							System.out.println(nombre);
-						}
-						if (((Animal) aux).getAlimento().equalsIgnoreCase("Omnivoro")) {
-							String nombre = ((Animal) aux).getNombreVulgar();
-							System.out.println("Animal Omnivoro:");
-							System.out.println(nombre);
+						if (!existe) {
+							AuxAlimento a = new AuxAlimento(auxAnimal.getAlimento(), auxAnimal.getNombreVulgar());
+							a.getNombresVulgares().add(auxAnimal.getNombreVulgar());
+							auxAlimento.add(a);
 						}
 					}
+
 				}
+				Collections.sort(auxAlimento);
+				System.out.println(" ALIMENTO | ANIMALES ");
+				for (AuxAlimento e : auxAlimento) {
+					System.out.println(e.getAlimento() + " | " + e.getNombresVulgares());
+				}
+				ois.close();
 			} catch (EOFException e1) {
 				System.out.println("el fichero ha acabado");
-				ois.close();
+
+			} catch (IOException e3) {
+				e3.printStackTrace();
 			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
