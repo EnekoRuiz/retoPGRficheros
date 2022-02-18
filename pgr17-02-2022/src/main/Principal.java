@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import clases.Animal;
+import clases.AuxCuidador;
+import clases.AuxAlimento;
 import clases.AuxColor;
 import clases.AuxHabitat;
 import clases.Cuidador;
